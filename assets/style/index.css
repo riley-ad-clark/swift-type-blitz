@@ -58,4 +58,68 @@
     background-color: var(--bg-dark-mode-main);
   }
 /*--------end of general--------*/
-/*----
+
+/*----counters----*/
+.counter-score {
+    display: flex;
+    justify-content: space-evenly;
+    align-items: center;
+    gap: 75px;
+}
+
+.start-restart {
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 30px;
+    background-color: var(--col-confirm-green);
+    color: var(--col-white);
+}
+
+.time,
+.score {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--col-white);
+}
+
+h3 {
+    font-size: 40px;
+}
+
+h2 {
+    font-size: 40px;
+}
+
+h1 {
+    font-size: 60px;
+    margin-bottom: 50px;
+    color: var(--col-white);
+}
+/*----end of counters----*/
+
+/*----user prompts and inputs----*/
+.array-word {
+    color: var(--col-main-alt);
+}
+.lower {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+}
+
+input[type="text"] {
+    color: var(--col-main-light-blue);
+    font-weight: 600;
+    font-size: 40px;
+    margin-top: 25px;
+    width: fit-content;
+    text-align: center;
+    background-color:var(--bg-dark-mode-main) ;
+}
+
+input[type="text"]::placeholder {
+    color: var(--col-main-light-blue);
+}
+/*----end of user prompts and inputs----*/
