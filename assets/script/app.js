@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
   let timer;
   let isGameRunning = false;
 
-    // Functions
+// Functions
 function getRandomWord() {
     let wordList = [
         'dinosaur', 'love', 'pineapple', 'calendar', 'robot', 'building',
@@ -52,20 +52,9 @@ function getRandomWord() {
         'audio', 'school', 'detective', 'hero', 'progress', 'winter', 'passion',
         'rebel', 'amber', 'jacket', 'article', 'paradox', 'social', 'resort', 'escape'
     ];
-    let usedWords = [];
-
-    if (wordList.length === 0) {
-        // Resets the used words array if the original array is empty
-        wordList = usedWords.slice();
-        usedWords = [];
-    }
 
     const randomIndex = Math.floor(Math.random() * wordList.length);
     const randomWord = wordList[randomIndex];
-
-    // Remove picked word from the original array, and add it to used words.
-    wordList.splice(randomIndex, 1);
-    usedWords.push(randomWord);
 
     return randomWord;
 }
