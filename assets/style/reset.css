@@ -40,7 +40,7 @@ html {
 
 body {
   min-height: 100dvh;
-  font-family: 'Poppins', "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
+  font-family: 'PT Sans', 'Poppins', "Segoe UI", "Noto Sans", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji";
   font-size: 1.6rem;
   line-height: 1.5;
   text-rendering: optimizeSpeed;
