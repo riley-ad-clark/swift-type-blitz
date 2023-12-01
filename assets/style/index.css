@@ -26,18 +26,25 @@
     }
   }
   
-  @keyframes pulsing {
-    from {
-      color: #eeecec;
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgb(233, 98, 163, 0.7);
     }
   
-    to {
-      color: #c90d0d;
+    70% {
+      transform: scale(0.98);
+      box-shadow: 0 0 0 10px rgb(233, 98, 163, 0.0);
+    }
+  
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgb(233, 98, 163, 0.0)
     }
   }
-  
+
   .pulsing {
-    animation: pulsing 1s ease-in-out forwards;
+    animation: pulse 2s ease-in-out infinite;
   }
   
   .fade-in {
@@ -80,8 +87,8 @@
     font-size: 80px;
     color: #fff;
     text-align: center;
-    -webkit-animation: glow 1s ease-in-out infinite alternate;
-    -moz-animation: glow 1s ease-in-out infinite alternate;
+    -webkit-animation: glow 2s ease-in-out infinite alternate;
+    -moz-animation: glow 2s ease-in-out infinite alternate;
     animation: glow 2s ease-in-out infinite alternate;
   }
 
@@ -97,6 +104,14 @@
   .title-span {
     font-size: 60px;
     margin-left: 5px;
+  }
+
+  .invisible {
+    visibility: hidden;
+  }
+
+  .visible {
+    visibility: visible;
   }
 /*--------end of general--------*/
 
