@@ -20,4 +20,4 @@ class Score {
     }
 }
 
-export { Score }
+export { Score };
