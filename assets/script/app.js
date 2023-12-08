@@ -157,7 +157,6 @@ document.addEventListener("DOMContentLoaded", function () {
     points: 0, 
     percentage: 0 
   };
-  let timerDuration = 90;
   let score = 0; // Initialize the global score variable
   let timer;
   let isGameRunning = false;
@@ -192,7 +191,8 @@ document.addEventListener("DOMContentLoaded", function () {
     score = 0;
     scoreCounter.textContent = score;
 
-    // Update the timer duration if needed
+    // Update the timer duration if needed\
+    timerDuration = 90;
     timeCounter.textContent = timerDuration;
 
     // Show countdown screen
@@ -226,6 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
     clearInterval(timer);
     score = 0;
     scoreCounter.textContent = score; // Update the score display
+    timerDuration = 90;
     timeCounter.textContent = timerDuration;
     addClass(timeCounter, "invisible");
   
