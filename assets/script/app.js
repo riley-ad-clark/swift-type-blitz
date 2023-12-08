@@ -157,7 +157,7 @@ document.addEventListener("DOMContentLoaded", function () {
     points: 0, 
     percentage: 0 
   };
-  let timerDuration = 2;
+  let timerDuration = 90;
   let score = 0; // Initialize the global score variable
   let timer;
   let isGameRunning = false;
