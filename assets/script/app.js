@@ -152,6 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Game State Variables
   let currentWord;
+  let timerDuration = 90;
   let gameScore = { 
     date: "", 
     points: 0, 
@@ -197,6 +198,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Show countdown screen
     showCountdownScreen(() => {
+      timerDuration = 90;
       removeClass(arrayWord, "invisible");
       removeClass(startRestartBox, "invisible")
       hideCountdownScreen();
@@ -231,6 +233,7 @@ document.addEventListener("DOMContentLoaded", function () {
     addClass(timeCounter, "invisible");
   
     showCountdownScreen(() => {
+      timerDuration = 90;
       hideCountdownScreen();
       removeClass(arrayWord, "invisible");
       removeClass(startRestartBox, "invisible")
