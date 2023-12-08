@@ -1,63 +1,89 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale">
-        <meta name="author" content="Riley Clark">
-        <meta name="description" content="FSwift Type Blitz">
-        <meta name="keywords" content="web developement, html, css, javascript, js">
-        <link rel="icon" href="./assets/images/favicon.png" type="image/x-icon">
-        <link rel="stylesheet" href="./assets/style/index.css" type="text/css" media="all">
-        <link rel="stylesheet" href="./assets/style/reset.css" type="text/css" media="all">
-        <script src="./assets/script/app.js" type="module"></script>
-        <script src="./assets/script/Score.js" type="module"></script>
-        <title>Swift-Type Blitz</title>
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap"
-            rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
-            integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
-            crossorigin="anonymous" referrerpolicy="no-referrer" />
-            <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap" rel="stylesheet">
-    </head>
-    <body>
-        <!----counters---->
-        <img class="background-gif" src="./assets/videos/background.gif" alt="videogame-like cityskyline as a faded background">
-        <div class="container center">
-            <div class="title">
-                <h1>swift-type <span class="glow title-span">blitz</span></h1>
-            </div>
-            <section class="upper">
-                <div class="counter-score">
-                    <div class="time-box invisible">
-                        <h3 class="time">time</h3>
-                        <h2 class="time-counter"></h2>
-                    </div>
-                    <div class="start-restart-box">
-                        <button class="start-restart pulsing">start</button>
-                    </div>
-                    <div class="score-box invisible">
-                        <h3 class="score">score</h3>
-                        <h2 class="score-counter"></h2>
-                    </div>
-                </div>
-            </section>
-            
-            <!----end of counters---->
-            <!----user prompts and inputs---->
-            <section class="lower invisible">
-                <div class="array-word">
-                    <h3></h3>
-                </div>
-                <div class="user-input">
-                    <input type="text" placeholder="Type here...">
-                </div>
-            </section>
-            <!----end of user prompts and inputs---->
-            <div class="high-scores-container invisible"></div>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale" />
+    <meta name="author" content="Riley Clark" />
+    <meta name="description" content="FSwift Type Blitz" />
+    <meta
+      name="keywords"
+      content="web developement, html, css, javascript, js"
+    />
+    <link rel="icon" href="./assets/images/favicon.png" type="image/x-icon" />
+    <link
+      rel="stylesheet"
+      href="./assets/style/index.css"
+      type="text/css"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="./assets/style/reset.css"
+      type="text/css"
+      media="all"
+    />
+    <script src="./assets/script/app.js" type="module"></script>
+    <script src="./assets/script/Score.js" type="module"></script>
+    <title>Swift-Type Blitz</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css"
+      integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=PT+Sans:ital,wght@0,400;0,700;1,400;1,700&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <!----counters---->
+    <img
+      class="background-gif"
+      src="./assets/videos/background.gif"
+      alt="videogame-like cityskyline as a faded background"
+    />
+    <div class="container center">
+      <div class="title">
+        <h1>swift-type <span class="glow title-span">blitz</span></h1>
+      </div>
+      <section class="upper">
+        <div class="counter-score">
+          <div class="time-box invisible">
+            <h3 class="time">time</h3>
+            <h2 class="time-counter"></h2>
+          </div>
+          <div class="start-restart-box">
+            <button class="start-restart pulsing">start</button>
+          </div>
+          <div class="score-box invisible">
+            <h3 class="score">score</h3>
+            <h2 class="score-counter"></h2>
+          </div>
         </div>
-    </body>
+      </section>
+
+      <!----end of counters---->
+      <!----user prompts and inputs---->
+      <section class="lower invisible">
+        <div class="array-word">
+          <h3></h3>
+        </div>
+        <div class="user-input">
+          <input type="text" placeholder="Type here..." />
+        </div>
+      </section>
+      <!----end of user prompts and inputs---->
+      <div class="high-scores-container invisible"></div>
+    </div>
+  </body>
 </html>
