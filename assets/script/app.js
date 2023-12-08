@@ -1,11 +1,18 @@
 "use strict";
 
 import { Score } from "./Score.js";
-import { append, element, addClass, removeClass, removeChild } from "./utility.js";
+import {
+  append,
+  element,
+  addClass,
+  removeClass,
+  removeChild,
+} from "./utility.js";
 
 document.addEventListener("DOMContentLoaded", function () {
   // DOM Elements
   const startRestartButton = document.querySelector("button.start-restart");
+  const startRestartBox = document.querySelector(".start-restart-box");
   const scoreBox = document.querySelector(".score-box");
   const scoreCounter = document.querySelector(".score-counter");
   const timeBox = document.querySelector(".time-box");
@@ -14,8 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
   const arrayWord = document.querySelector(".array-word");
   const lowerSection = document.querySelector(".lower");
   const title = document.querySelector("h1");
-  const titleSpan = document.querySelector(".title-span")
-  
+  const titleSpan = document.querySelector(".title-span");
+  const highScoresContainer = document.querySelector(".high-scores-container");
+
   let wordList = [
     "dinosaur",
     "love",
@@ -139,6 +147,8 @@ document.addEventListener("DOMContentLoaded", function () {
     "escape",
   ];
 
+  let highScores = [];
+
   // Audio Elements
   const menuMusic = new Audio("./assets/audio/waiting-music.mp3");
   menuMusic.loop = true;
@@ -148,14 +158,21 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Game State Variables
   let currentWord;
-  let timerDuration = 99;
-  let score = 0;
-  let timer;
+  let gameScore = {
+    date: "",
+    points: 0,
+    percentage: 0,
+  };
+  let timerDuration = 90;
+  let score = 0; // Initialize the global score variable
   let isGameRunning = false;
+  const currentDate = new Date().toLocaleDateString();
+  const storedHighScores = localStorage.getItem("highScores");
+  highScores = storedHighScores ? JSON.parse(storedHighScores) : [];
 
   // Functions
   function getRandomWord() {
-    let newArray = []
+    let newArray = [];
     newArray = wordList;
     const randomIndex = Math.floor(Math.random() * newArray.length);
     const randomWord = wordList[randomIndex];
@@ -169,23 +186,24 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function stylizeOnAllStarts() {
-    title.style.fontSize = '40px'
-    titleSpan.style.fontSize = '40px'
-    arrayWord.style.fontSize = '60px'
+    title.style.fontSize = "40px";
+    titleSpan.style.fontSize = "40px";
+    arrayWord.style.fontSize = "60px";
   }
 
   function startGame() {
+    addClass(highScoresContainer, "invisible");
     stylizeOnAllStarts();
     score = 0;
     scoreCounter.textContent = score;
 
     // Update the timer duration if needed
-    timerDuration = 1;
     timeCounter.textContent = timerDuration;
 
     // Show countdown screen
     showCountdownScreen(() => {
-      // Hide countdown screen and start the game
+      removeClass(arrayWord, "invisible");
+      removeClass(startRestartBox, "invisible");
       hideCountdownScreen();
       showNewWord();
       timer = setInterval(function () {
@@ -211,23 +229,19 @@ document.addEventListener("DOMContentLoaded", function () {
   function restartGame() {
     // Clear any existing interval for the countdown
     clearInterval(timer);
-
-    arrayWord.textContent = "";
-
     score = 0;
-    scoreCounter.textContent = score;
-    addClass(scoreCounter, "invisible"); // Hide score
-
-    // Reset timer duration and display "Get ready!"
-    timerDuration = 1;
+    scoreCounter.textContent = score; // Update the score display
     timeCounter.textContent = timerDuration;
-    addClass(timeCounter, "invisible"); // Hide time
+    addClass(timeCounter, "invisible");
 
-    // Show countdown screen
     showCountdownScreen(() => {
-      // Hide countdown screen and start the game
       hideCountdownScreen();
+      removeClass(arrayWord, "invisible");
+      removeClass(startRestartBox, "invisible");
+      removeClass(titleSpan, "invisible");
+      // Display a new random word
       showNewWord();
+
       timer = setInterval(function () {
         timerDuration--;
         timeCounter.textContent = timerDuration;
@@ -237,24 +251,23 @@ document.addEventListener("DOMContentLoaded", function () {
       }, 1000);
     });
 
-    // Change the button text to "restart"
-    startRestartButton.textContent = "restart";
+    // Update the flag to indicate that the game is running
+    isGameRunning = true;
 
-    // Pause and reset the menu music
+    // Change the button text to "Restart"
+    startRestartButton.textContent = "restart";
     backgroundMusic.pause();
     backgroundMusic.currentTime = 0;
-
-    // Play the background music
     backgroundMusic.play();
   }
 
   function showCountdownScreen(callback) {
-    // Hide other elements
     addClass(scoreBox, "invisible");
     addClass(timeBox, "invisible");
     addClass(userInput, "invisible");
     addClass(startRestartButton, "invisible");
     addClass(title, "invisible");
+    addClass(arrayWord, "invisible");
 
     // Display countdown screen with 2 seconds of free time
     const countdownScreen = element("div");
@@ -262,15 +275,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const countDownText = element("h2");
     countDownText.textContent = "get ready!"; // Initial text content
-    addClass(countDownText, "fade-in"); // Add fade-in class to the h2 element
-    append(countdownScreen, countDownText);
 
+    addClass(countDownText, "fade-in");
+    append(countdownScreen, countDownText);
     append(document.body, countdownScreen);
 
     let countdown = 7; // Total countdown duration is 7 seconds
     const countdownInterval = setInterval(function () {
       if (countdown === 7) {
-        // Show "Get ready!" at the beginning and after 5 seconds
         countDownText.textContent = "get ready!";
         addClass(countDownText, "fade-out");
       } else if (countdown > 1) {
@@ -304,10 +316,66 @@ document.addEventListener("DOMContentLoaded", function () {
     removeClass(timeCounter, "invisible");
   }
 
+  function getHighScores() {
+    // Update gameScore with the current score
+    gameScore = {
+      date: currentDate,
+      points: score,
+      percentage: calculatePercentage(score),
+    };
+
+    // Add the player's score to the array
+    highScores.push(gameScore);
+
+    // Sort the array by points
+    highScores.sort((a, b) => b.points - a.points);
+
+    // Splice the array to keep only the top 9 scores
+    highScores.splice(9);
+
+    // Save the sorted array back to localStorage
+    localStorage.setItem("highScores", JSON.stringify(highScores));
+  }
+
+  function displayHighScores() {
+    // Retrieve high scores from local storage
+    const storedHighScores = localStorage.getItem("highScores");
+    console.log("Stored High Scores:", storedHighScores);
+    highScores = storedHighScores ? JSON.parse(storedHighScores) : [];
+
+    const highScoresContainer = element("div");
+    addClass(highScoresContainer, "high-scores-container", "fade-in");
+
+    const highScoresHeading = element("h2");
+    highScoresHeading.textContent = "High Scores:";
+    append(highScoresContainer, highScoresHeading);
+
+    // Display only the top 9 high scores
+    highScores.slice(0, 9).forEach((score, index) => {
+      const scoreParagraph = element("p");
+      addClass(scoreParagraph, "high-score-item");
+      scoreParagraph.textContent = `${index + 1}. Date: ${score.date}, Score: ${
+        score.points
+      }, Percentage: ${score.percentage}`;
+      append(highScoresContainer, scoreParagraph);
+    });
+
+    // Clear any existing high scores on the page before appending new ones
+    const existingHighScoresContainer = document.querySelector(
+      ".high-scores-container"
+    );
+    if (existingHighScoresContainer) {
+      existingHighScoresContainer.remove();
+    }
+
+    append(document.body, highScoresContainer);
+  }
+
   function createEndScreen() {
-    const currentDate = new Date().toLocaleDateString();
     const percentage = calculatePercentage(score);
-    const gameScore = new Score(currentDate, score, percentage);
+
+    getHighScores();
+    displayHighScores();
 
     const gameOverScreen = element("div");
     addClass(gameOverScreen, "game-over-screen", "fade-in");
@@ -316,7 +384,7 @@ document.addEventListener("DOMContentLoaded", function () {
     addClass(gameOverInnerDiv, "game-over-inner-div", "fade-in");
     append(gameOverScreen, gameOverInnerDiv);
 
-    const holyMoly = document.createElement("h2");
+    const holyMoly = element("h2");
     addClass(holyMoly, "holy-moly");
     holyMoly.textContent = "Holy Moly... You're good!";
     append(gameOverInnerDiv, holyMoly);
@@ -334,19 +402,35 @@ document.addEventListener("DOMContentLoaded", function () {
     append(gameOverInnerDiv, finalScore);
 
     const finalPercentage = element("p");
-    finalPercentage.textContent = "Final Percentage (out of 120): " + percentage;
+    finalPercentage.textContent =
+      "Final Percentage (out of 120): " + percentage;
     append(gameOverInnerDiv, finalPercentage);
 
-    const retryButton = document.createElement("button");
+    const retryButton = element("button");
     retryButton.innerText = "restart";
     addClass(retryButton, "start-restart", "again-button");
-
     append(gameOverInnerDiv, retryButton);
+
     append(document.body, gameOverScreen);
   }
 
+  function makeAllInvisible() {
+    addClass(title, "invisible");
+    addClass(scoreBox, "invisible");
+    addClass(timeCounter, "invisible");
+    addClass(scoreCounter, "invisible");
+    addClass(timeBox, "invisible");
+    addClass(userInput, "invisible");
+    addClass(titleSpan, "invisible");
+    addClass(arrayWord, "invisible");
+  }
+
   function endGame() {
+    addClass(startRestartBox, "invisible");
     clearInterval(timer);
+    makeAllInvisible();
+    removeClass(highScoresContainer, "invisible");
+    displayHighScores();
     createEndScreen();
     backgroundMusic.pause();
     backgroundMusic.currentTime = 0;
@@ -360,19 +444,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function handleButtonClick(event) {
     const gameOverScreen = document.querySelector(".game-over-screen");
+
     if (event.target.classList.contains("start-restart")) {
       if (isGameRunning) {
-        endMusic.pause();
-        endMusic.currentTime = 0;
-        restartGame();
-        if (gameOverScreen !== null && gameOverScreen !== undefined) {
-          document.body.removeChild(gameOverScreen);
-        }
+        handleGameRestart(gameOverScreen);
       } else {
         startGame();
       }
+    }
+  }
 
-      document.addEventListener("click", handleButtonClick);
+  function handleGameRestart(gameOverScreen) {
+    let highScoresContainer = document.querySelector(".high-scores-container");
+    addClass(highScoresContainer, "invisible");
+    endMusic.pause();
+    endMusic.currentTime = 0;
+    restartGame();
+    removeGameOverScreen(gameOverScreen);
+  }
+
+  function removeGameOverScreen(gameOverScreen) {
+    if (gameOverScreen !== null && gameOverScreen !== undefined) {
+      removeChild(document.body, gameOverScreen);
     }
   }
 
@@ -385,7 +478,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  // Event Listeners
   document.addEventListener("click", handleButtonClick);
   userInput.addEventListener("input", handleInput);
 });
